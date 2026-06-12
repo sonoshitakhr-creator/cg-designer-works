@@ -186,21 +186,26 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 /* ===== COHORT FILTER ===== */
 .gallery-header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .cohort-filter-row{
-  display:flex;align-items:center;gap:.75rem;margin-top:1.2rem;
-  padding-top:1.2rem;border-top:1px solid var(--light-gray);flex-wrap:wrap;
+  display:flex;align-items:center;gap:1rem;margin-top:1.2rem;
+  padding-top:1.2rem;border-top:1px solid var(--light-gray);
 }
 .cohort-filter-label{
   font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--text-sub);
-  text-transform:uppercase;white-space:nowrap;
+  text-transform:uppercase;white-space:nowrap;flex-shrink:0;
 }
-.cohort-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+.cohort-tabs{
+  display:inline-flex;
+  border:1.5px solid var(--mid-gray);border-radius:8px;overflow:hidden;
+}
 .cohort-tab{
-  padding:.3rem .85rem;border-radius:5px;font-size:.76rem;font-weight:700;
-  cursor:pointer;border:1.5px solid var(--mid-gray);background:transparent;
-  color:var(--text-sub);transition:all .2s;letter-spacing:.04em;
+  padding:.35rem 1.1rem;font-size:.75rem;font-weight:700;
+  cursor:pointer;border:none;border-right:1.5px solid var(--mid-gray);
+  background:transparent;color:var(--text-sub);
+  transition:background .15s,color .15s;letter-spacing:.04em;white-space:nowrap;
 }
-.cohort-tab:hover:not(.active){border-color:var(--dark-gray);color:var(--dark-gray)}
-.cohort-tab.active{border-color:var(--text);color:var(--white);background:var(--text)}
+.cohort-tab:last-child{border-right:none}
+.cohort-tab:hover:not(.active){background:var(--light-gray);color:var(--dark-gray)}
+.cohort-tab.active{background:var(--text);color:var(--white)}
 
 /* ===== MODAL ===== */
 .modal-overlay{
