@@ -109,28 +109,45 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 
 /* ===== MAJORS ===== */
 .majors{background:var(--off-white)}
-.majors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+.majors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:3rem}
 .major-card{
-  background:var(--white);border-radius:var(--radius);padding:2.5rem 2rem;
+  background:var(--white);border-radius:var(--radius);
   box-shadow:var(--shadow);transition:all .3s;cursor:pointer;position:relative;overflow:hidden;
+  display:flex;align-items:stretch;
 }
 .major-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;z-index:1;
 }
 .major-card.illust::before{background:linear-gradient(90deg,var(--illust),#c4b5fd)}
 .major-card.graphic::before{background:linear-gradient(90deg,var(--graphic),#fbbf24)}
 .major-card.cg::before{background:linear-gradient(90deg,var(--cg),#60a5fa)}
 .major-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
-.major-icon{font-size:2.5rem;margin-bottom:1rem}
-.major-card h3{font-size:1.2rem;font-weight:800;margin-bottom:.6rem;letter-spacing:-.01em}
-.major-card p{font-size:.85rem;color:var(--text-sub);line-height:1.7}
+.major-content{flex:1;padding:2rem 1.8rem;min-width:0}
+.major-icon{font-size:2.2rem;margin-bottom:.9rem}
+.major-card h3{font-size:1.15rem;font-weight:800;margin-bottom:.6rem;letter-spacing:-.01em}
+.major-card p{font-size:.83rem;color:var(--text-sub);line-height:1.7}
 .major-tag{
-  display:inline-block;margin-top:1.2rem;padding:.3rem .9rem;
+  display:inline-block;margin-top:1.1rem;padding:.3rem .9rem;
   border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.06em;
 }
 .illust .major-tag{background:#ede9fe;color:#7c3aed}
 .graphic .major-tag{background:#fff7ed;color:#c2410c}
 .cg .major-tag{background:#ecfeff;color:#0e7490}
+.major-thumb{
+  width:38%;flex-shrink:0;position:relative;overflow:hidden;
+  border-radius:0 var(--radius) var(--radius) 0;
+}
+.major-thumb img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease;display:block;
+}
+.major-card:hover .major-thumb img{transform:scale(1.08)}
+.major-thumb::after{
+  content:'';position:absolute;inset:0;opacity:.18;pointer-events:none;
+}
+.illust .major-thumb::after{background:var(--illust)}
+.graphic .major-thumb::after{background:var(--graphic)}
+.cg .major-thumb::after{background:var(--cg)}
 
 /* ===== GALLERY ===== */
 .gallery-header{margin-bottom:2.5rem}
@@ -361,6 +378,11 @@ footer small{font-size:.78rem;letter-spacing:.04em}
   .work-info{padding:1rem 1.1rem 1.2rem}
   .work-title{font-size:.95rem}
 
+  /* 専攻カード：縦積みに切り替え */
+  .major-card{flex-direction:column}
+  .major-thumb{width:100%;height:150px;border-radius:0 0 var(--radius) var(--radius)}
+  .major-content{padding:1.5rem}
+
   /* モーダル */
   .modal-overlay{padding:.5rem}
   .modal-body{padding:1.2rem 1.4rem 1.5rem}
@@ -420,22 +442,37 @@ footer small{font-size:.78rem;letter-spacing:.04em}
   </div>
   <div class="majors-grid fade-up">
     <div class="major-card illust" onclick="filterWorks('illust')">
-      <div class="major-icon">🎨</div>
-      <h3>イラスト専攻</h3>
-      <p>デジタルイラストを中心に、キャラクターデザインや背景美術など幅広い表現を学びます。ゲーム・アニメ・出版など多方面で活躍できるクリエイターを育成します。</p>
-      <span class="major-tag">ILLUSTRATION</span>
+      <div class="major-content">
+        <div class="major-icon">🎨</div>
+        <h3>イラスト専攻</h3>
+        <p>デジタルイラストを中心に、キャラクターデザインや背景美術など幅広い表現を学びます。ゲーム・アニメ・出版など多方面で活躍できるクリエイターを育成します。</p>
+        <span class="major-tag">ILLUSTRATION</span>
+      </div>
+      <div class="major-thumb">
+        <img src="images/il_a002.png" alt="イラスト専攻作品">
+      </div>
     </div>
     <div class="major-card graphic" onclick="filterWorks('graphic')">
-      <div class="major-icon">🖼️</div>
-      <h3>グラフィックデザイン専攻</h3>
-      <p>ポスター・パッケージ・Webビジュアルなどのグラフィック制作を通じて、企業広告や印刷物、WEBデザイン等の領域で、伝わるデザインの力を習得します。</p>
-      <span class="major-tag">GRAPHIC DESIGN</span>
+      <div class="major-content">
+        <div class="major-icon">🖼️</div>
+        <h3>グラフィックデザイン専攻</h3>
+        <p>ポスター・パッケージ・Webビジュアルなどのグラフィック制作を通じて、企業広告や印刷物、WEBデザイン等の領域で、伝わるデザインの力を習得します。</p>
+        <span class="major-tag">GRAPHIC DESIGN</span>
+      </div>
+      <div class="major-thumb">
+        <img src="images/gr_a001.png" alt="グラフィックデザイン専攻作品">
+      </div>
     </div>
     <div class="major-card cg" onclick="filterWorks('cg')">
-      <div class="major-icon">🎬</div>
-      <h3>3DCGアニメーション専攻</h3>
-      <p>3Dモデリング・アニメーション・VFXの政策を通じて、ゲーム会社やアニメーション制作、映像業界で求められる最先端の技術を習得します。</p>
-      <span class="major-tag">3D CG ANIMATION</span>
+      <div class="major-content">
+        <div class="major-icon">🎬</div>
+        <h3>3DCGアニメーション専攻</h3>
+        <p>3Dモデリング・アニメーション・VFXの政策を通じて、ゲーム会社やアニメーション制作、映像業界で求められる最先端の技術を習得します。</p>
+        <span class="major-tag">3D CG ANIMATION</span>
+      </div>
+      <div class="major-thumb">
+        <img src="images/3d_a001.png" alt="3DCGアニメーション専攻作品">
+      </div>
     </div>
   </div>
 </section>
