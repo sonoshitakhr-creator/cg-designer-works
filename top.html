@@ -175,8 +175,32 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 .work-major.graphic{color:var(--graphic)}
 .work-major.cg{color:var(--cg)}
 .work-title{font-size:1rem;font-weight:800;margin-bottom:.3rem;letter-spacing:-.01em}
-.work-author{font-size:.8rem;color:var(--text-sub)}
-.work-year{font-size:.75rem;color:var(--mid-gray);margin-left:.5rem}
+.work-author{font-size:.8rem;color:var(--text-sub);display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.work-cohort{
+  font-size:.65rem;font-weight:700;letter-spacing:.05em;
+  background:var(--light-gray);color:var(--dark-gray);
+  padding:.1rem .45rem;border-radius:3px;white-space:nowrap;flex-shrink:0;
+}
+.work-year{font-size:.75rem;color:var(--mid-gray);margin-left:auto}
+
+/* ===== COHORT FILTER ===== */
+.gallery-header-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.cohort-filter-row{
+  display:flex;align-items:center;gap:.75rem;margin-top:1.2rem;
+  padding-top:1.2rem;border-top:1px solid var(--light-gray);flex-wrap:wrap;
+}
+.cohort-filter-label{
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--text-sub);
+  text-transform:uppercase;white-space:nowrap;
+}
+.cohort-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+.cohort-tab{
+  padding:.3rem .85rem;border-radius:5px;font-size:.76rem;font-weight:700;
+  cursor:pointer;border:1.5px solid var(--mid-gray);background:transparent;
+  color:var(--text-sub);transition:all .2s;letter-spacing:.04em;
+}
+.cohort-tab:hover:not(.active){border-color:var(--dark-gray);color:var(--dark-gray)}
+.cohort-tab.active{border-color:var(--text);color:var(--white);background:var(--text)}
 
 /* ===== MODAL ===== */
 .modal-overlay{
@@ -340,15 +364,21 @@ footer small{font-size:.78rem;letter-spacing:.04em}
 <!-- GALLERY -->
 <section class="section" id="gallery" style="background:var(--off-white)">
   <div class="gallery-header fade-up">
-    <div>
-      <div class="section-label">Gallery</div>
-      <h2 class="section-title">作品一覧</h2>
+    <div class="gallery-header-top">
+      <div>
+        <div class="section-label">Gallery</div>
+        <h2 class="section-title">作品一覧</h2>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all" onclick="filterWorks('all',this)">すべて</button>
+        <button class="filter-tab" data-filter="illust" onclick="filterWorks('illust',this)">イラスト</button>
+        <button class="filter-tab" data-filter="graphic" onclick="filterWorks('graphic',this)">グラフィック</button>
+        <button class="filter-tab" data-filter="cg" onclick="filterWorks('cg',this)">3DCG</button>
+      </div>
     </div>
-    <div class="filter-tabs">
-      <button class="filter-tab active" data-filter="all" onclick="filterWorks('all',this)">すべて</button>
-      <button class="filter-tab" data-filter="illust" onclick="filterWorks('illust',this)">イラスト</button>
-      <button class="filter-tab" data-filter="graphic" onclick="filterWorks('graphic',this)">グラフィック</button>
-      <button class="filter-tab" data-filter="cg" onclick="filterWorks('cg',this)">3DCG</button>
+    <div class="cohort-filter-row">
+      <span class="cohort-filter-label">期</span>
+      <div class="cohort-tabs" id="cohortTabs"></div>
     </div>
   </div>
   <div class="gallery-grid" id="galleryGrid"></div>
@@ -413,6 +443,7 @@ const WORKS = [
     id: 1,
     title: "キャラデザ ー 水嶋カナタ",
     author: "桔梗原結月",
+    cohort: "HU03",
     year: 2026,
     major: "illust",
     type: "image",
@@ -425,7 +456,8 @@ const WORKS = [
   {
     id: 2,
     title: "ワンドロイラスト",
-    author: "HH43-1007 安積百香",
+    author: "安積百香",
+    cohort: "HH43",
     year: 2025,
     major: "graphic",
     type: "image",
@@ -438,7 +470,8 @@ const WORKS = [
   {
     id: 3,
     title: "DA!!!!",
-    author: "小板 陸",
+    author: "小板 陸哉",
+    cohort: "HU03",
     year: 2025,
     major: "cg",
     type: "video",
@@ -452,6 +485,7 @@ const WORKS = [
     id: 4,
     title: "幻獣戦記ファウナ",
     author: "桔梗原 結月",
+    cohort: "HU03",
     year: 2025,
     major: "illust",
     type: "image",
@@ -464,7 +498,8 @@ const WORKS = [
   {
     id: 5,
     title: "まきまきあざらしさんリング　ポスター",
-    author: "井上　穂波",
+    author: "井上 穂波",
+    cohort: "HU03",
     year: 2025,
     major: "graphic",
     type: "image",
@@ -478,6 +513,7 @@ const WORKS = [
     id: 6,
     title: "凡才",
     author: "小山内 葵",
+    cohort: "HU03",
     year: 2025,
     major: "cg",
     type: "video",
@@ -493,7 +529,30 @@ const WORKS = [
 const majorLabel = { illust:"イラスト専攻", graphic:"グラフィックデザイン専攻", cg:"3DCGアニメーション専攻" };
 const majorColor = { illust:"var(--illust)", graphic:"var(--graphic)", cg:"var(--cg)" };
 let currentFilter = "all";
+let currentCohort = "all";
 let currentModalId = null;
+
+function getFilteredWorks(){
+  return WORKS
+    .filter(w => currentFilter === "all" || w.major === currentFilter)
+    .filter(w => currentCohort === "all" || w.cohort === currentCohort);
+}
+
+function renderCohortTabs(){
+  const cohorts = ["all", ...new Set(WORKS.map(w => w.cohort).filter(Boolean))];
+  document.getElementById("cohortTabs").innerHTML = cohorts.map(c =>
+    `<button class="cohort-tab${c === currentCohort ? ' active' : ''}" onclick="filterCohort('${c}',this)">
+      ${c === 'all' ? 'すべての期' : c + '期'}
+    </button>`
+  ).join("");
+}
+
+function filterCohort(f, btn){
+  currentCohort = f;
+  document.querySelectorAll(".cohort-tab").forEach(t => t.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  renderGallery();
+}
 
 function getPlaceholder(major){
   const icons = {illust:"🎨",graphic:"🖼️",cg:"🎬"};
@@ -517,16 +576,19 @@ function buildThumb(w){
   return `<div class="work-thumb">${getPlaceholder(w.major)}</div>`;
 }
 
-function renderGallery(filter){
+function renderGallery(){
   const grid = document.getElementById("galleryGrid");
-  const filtered = filter==="all" ? WORKS : WORKS.filter(w=>w.major===filter);
+  const filtered = getFilteredWorks();
   grid.innerHTML = filtered.map(w=>`
     <div class="work-card fade-up" onclick="openModal(${w.id})">
       ${buildThumb(w)}
       <div class="work-info">
         <div class="work-major ${w.major}">${majorLabel[w.major]}</div>
         <div class="work-title">${w.title}</div>
-        <div class="work-author">${w.author}<span class="work-year">${w.year}</span></div>
+        <div class="work-author">
+          ${w.cohort ? `<span class="work-cohort">${w.cohort}</span>` : ''}
+          <span>${w.author}</span><span class="work-year">${w.year}</span>
+        </div>
       </div>
     </div>
   `).join("");
@@ -540,9 +602,9 @@ function filterWorks(f, btn){
   if(btn) btn.classList.add("active");
   else{
     const t = document.querySelector(`.filter-tab[data-filter="${f}"]`);
-    if(t){t.classList.add("active");document.querySelectorAll(".filter-tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");}
+    if(t){document.querySelectorAll(".filter-tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");}
   }
-  renderGallery(f);
+  renderGallery();
   document.getElementById("gallery").scrollIntoView({behavior:"smooth"});
 }
 
@@ -551,7 +613,7 @@ function openModal(id){
   if(!w) return;
   const overlay = document.getElementById("modalOverlay");
   const media = document.getElementById("modalMedia");
-  const filtered = currentFilter==="all" ? WORKS : WORKS.filter(w=>w.major===currentFilter);
+  const filtered = getFilteredWorks();
   const currentIndex = filtered.findIndex(w=>w.id===id);
   
   currentModalId = id;
@@ -616,7 +678,7 @@ function closeFullscreen(e){
 
 function nextWork(){
   if(!currentModalId) return;
-  const filtered = currentFilter==="all" ? WORKS : WORKS.filter(w=>w.major===currentFilter);
+  const filtered = getFilteredWorks();
   const currentIndex = filtered.findIndex(w=>w.id===currentModalId);
   if(currentIndex < filtered.length - 1){
     openModal(filtered[currentIndex + 1].id);
@@ -625,7 +687,7 @@ function nextWork(){
 
 function prevWork(){
   if(!currentModalId) return;
-  const filtered = currentFilter==="all" ? WORKS : WORKS.filter(w=>w.major===currentFilter);
+  const filtered = getFilteredWorks();
   const currentIndex = filtered.findIndex(w=>w.id===currentModalId);
   if(currentIndex > 0){
     openModal(filtered[currentIndex - 1].id);
@@ -666,7 +728,8 @@ function countUp(el,target){
 }
 
 // Init
-renderGallery("all");
+renderCohortTabs();
+renderGallery();
 observeFadeUp();
 const statEl=document.getElementById("stat-works");
 const statObs=new IntersectionObserver(e=>{if(e[0].isIntersecting){countUp(statEl,WORKS.length);statObs.disconnect()}});
