@@ -656,6 +656,20 @@ const WORKS = [
     desc: "夏休みの自主制作課題として制作した観光ポスターです。",
     event: "夏休み自主制作課題 2025"
   },
+  {
+    id: 8,
+    title: "VOXELAND まとめ",
+    author: "長内 大地",
+    cohort: "HU03",
+    year: 2025,
+    major: "cg",
+    type: "pdf",
+    src: "works/HU03_1010_長内大地_夏休み自由制作作品 _VOXELAND_まとめ.pdf",
+    thumb: "",
+    aspectRatio: "9/13",
+    desc: "夏休みの自主制作課題として制作した3DCG作品のまとめです。",
+    event: "夏休み自主制作課題　2025年"
+  },
 ];
 /* ============================================= */
 
@@ -706,6 +720,9 @@ function buildThumb(w){
       return `<div class="work-thumb"><img src="${w.thumb}" alt="${w.title}" loading="lazy"><span class="video-badge">▶ VIDEO</span></div>`;
     }
     return `<div class="work-thumb">${getPlaceholder(w.major)}<span class="video-badge">▶ VIDEO</span></div>`;
+  }
+  if(w.type==="pdf"){
+    return `<div class="work-thumb">${getPlaceholder(w.major)}<span class="video-badge">📄 PDF</span></div>`;
   }
   if(w.src){
     return `<div class="work-thumb"><img src="${w.thumb||w.src}" alt="${w.title}" loading="lazy"></div>`;
@@ -760,6 +777,9 @@ function openModal(id){
     media.innerHTML=`<iframe width="100%" height="100%" src="${w.src}?rel=0&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display:block"></iframe>`;
   } else if(w.type==="video" && w.src){
     media.innerHTML=`<div style="width:100%;height:100%;position:relative" onclick="if(event.target.tagName==='VIDEO') openFullscreen(event, '${w.type}', '${w.src}')"><video src="${w.src}" controls playsinline style="width:100%;height:100%;object-fit:contain;cursor:pointer" onclick="event.stopPropagation()"></video></div>`;
+  } else if(w.type==="pdf" && w.src){
+    media.style.aspectRatio = "9/13";
+    media.innerHTML=`<iframe src="${w.src}" style="width:100%;height:100%;border:none;display:block;" title="${w.title}"></iframe>`;
   } else if(w.src){
     media.innerHTML=`<img src="${w.src}" alt="${w.title}" style="width:100%;height:100%;object-fit:contain;cursor:pointer" onclick="openFullscreen(event, '${w.type}', '${w.src}')">`;
   } else {
