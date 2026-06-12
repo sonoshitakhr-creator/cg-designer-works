@@ -207,6 +207,7 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 }
 .modal-close:hover{transform:scale(1.1);background:var(--off-white)}
 .modal-wrap{position:relative}
+.modal-media-wrap{position:relative}
 .modal-nav{
   position:absolute;top:50%;transform:translateY(-50%);
   width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.15);
@@ -215,7 +216,7 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
   transition:all .2s;z-index:10;padding:0;margin:0;
   opacity:0;pointer-events:none;
 }
-.modal-wrap:hover .modal-nav{opacity:1;pointer-events:auto}
+.modal-media-wrap:hover .modal-nav{opacity:1;pointer-events:auto}
 .modal-nav:hover{background:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.6)}
 .modal-prev{left:1rem;padding-bottom:6px;padding-right:2px}
 .modal-next{right:1rem;padding-bottom:6px;padding-left:2px}
@@ -376,10 +377,12 @@ footer small{font-size:.78rem;letter-spacing:.04em}
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal-wrap">
     <button class="modal-close" onclick="closeModalBtn()">✕</button>
-    <button class="modal-nav modal-prev" onclick="prevWork()">‹</button>
-    <button class="modal-nav modal-next" onclick="nextWork()">›</button>
     <div class="modal">
-      <div class="modal-media" id="modalMedia"></div>
+      <div class="modal-media-wrap">
+        <button class="modal-nav modal-prev" onclick="prevWork()">‹</button>
+        <button class="modal-nav modal-next" onclick="nextWork()">›</button>
+        <div class="modal-media" id="modalMedia"></div>
+      </div>
       <div class="modal-body">
         <div class="modal-major" id="modalMajor"></div>
         <h2 class="modal-title" id="modalTitle"></h2>
