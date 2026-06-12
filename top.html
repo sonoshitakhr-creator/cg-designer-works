@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CG Designer Gallery | 日本工学院北海道専門学校</title>
+<style>
+/* ===== RESET & BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --white:#ffffff;
+  --off-white:#f8f8f6;
+  --light-gray:#f0f0ee;
+  --mid-gray:#d0d0cc;
+  --dark-gray:#444;
+  --text:#1a1a1a;
+  --text-sub:#666;
+  --accent:#5b5ef4;
+  --accent2:#ff6b6b;
+  --accent3:#00c9a7;
+  --illust:#a78bfa;
+  --graphic:#f97316;
+  --cg:#06b6d4;
+  --shadow:0 4px 24px rgba(0,0,0,0.08);
+  --shadow-hover:0 12px 40px rgba(0,0,0,0.14);
+  --radius:16px;
+  --font:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--text);background:var(--white);line-height:1.6;overflow-x:hidden}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:68px;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  transition:box-shadow .3s;
+}
+nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.nav-logo{font-size:.8rem;font-weight:700;letter-spacing:.08em;color:var(--text);text-decoration:none;line-height:1.3}
+.nav-logo span{display:block;font-size:1.1rem;letter-spacing:.04em;color:var(--accent)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--text-sub);font-size:.85rem;font-weight:500;letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  background:linear-gradient(160deg,#f0f0ff 0%,#fff 40%,#fff0f5 100%);
+  position:relative;overflow:hidden;padding-top:68px;
+}
+.hero-bg{
+  position:absolute;inset:0;overflow:hidden;pointer-events:none;
+}
+.hero-blob{
+  position:absolute;border-radius:50%;filter:blur(80px);opacity:.25;
+  animation:float 8s ease-in-out infinite;
+}
+.blob1{width:500px;height:500px;background:var(--illust);top:-100px;right:-100px;animation-delay:0s}
+.blob2{width:400px;height:400px;background:var(--cg);bottom:-80px;left:-80px;animation-delay:3s}
+.blob3{width:300px;height:300px;background:var(--graphic);top:40%;left:55%;animation-delay:5s}
+@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+
+.hero-content{position:relative;z-index:1;max-width:800px;padding:0 2rem}
+.hero-badge{
+  display:inline-block;margin-bottom:1.5rem;padding:.4rem 1.2rem;
+  border:1px solid var(--accent);border-radius:999px;
+  font-size:.75rem;font-weight:700;letter-spacing:.12em;color:var(--accent);
+  text-transform:uppercase;
+}
+.hero h1{
+  font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;letter-spacing:-.02em;
+  line-height:1.1;margin-bottom:1.5rem;color:var(--text);
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--accent),var(--illust));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{font-size:1rem;color:var(--text-sub);margin-bottom:3rem;letter-spacing:.03em}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{
+  padding:.85rem 2.2rem;border-radius:999px;font-size:.9rem;font-weight:700;
+  text-decoration:none;letter-spacing:.05em;transition:all .25s;cursor:pointer;border:none;
+}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 20px rgba(91,94,244,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(91,94,244,.4)}
+.btn-outline{background:transparent;color:var(--text);border:2px solid var(--mid-gray)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+/* ===== STATS ===== */
+.stats{
+  display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;
+  padding:3rem 5%;background:var(--white);border-top:1px solid var(--light-gray);
+}
+.stat{text-align:center}
+.stat-num{font-size:2.5rem;font-weight:900;color:var(--accent);letter-spacing:-.03em}
+.stat-label{font-size:.8rem;color:var(--text-sub);letter-spacing:.08em;margin-top:.2rem}
+
+/* ===== SECTION ===== */
+.section{padding:6rem 5%}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.15em;color:var(--accent);text-transform:uppercase;margin-bottom:.8rem}
+.section-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;letter-spacing:-.02em;margin-bottom:1rem}
+.section-sub{color:var(--text-sub);font-size:.95rem;max-width:560px}
+
+/* ===== MAJORS ===== */
+.majors{background:var(--off-white)}
+.majors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+.major-card{
+  background:var(--white);border-radius:var(--radius);padding:2.5rem 2rem;
+  box-shadow:var(--shadow);transition:all .3s;cursor:pointer;position:relative;overflow:hidden;
+}
+.major-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+}
+.major-card.illust::before{background:linear-gradient(90deg,var(--illust),#c4b5fd)}
+.major-card.graphic::before{background:linear-gradient(90deg,var(--graphic),#fbbf24)}
+.major-card.cg::before{background:linear-gradient(90deg,var(--cg),#60a5fa)}
+.major-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.major-icon{font-size:2.5rem;margin-bottom:1rem}
+.major-card h3{font-size:1.2rem;font-weight:800;margin-bottom:.6rem;letter-spacing:-.01em}
+.major-card p{font-size:.85rem;color:var(--text-sub);line-height:1.7}
+.major-tag{
+  display:inline-block;margin-top:1.2rem;padding:.3rem .9rem;
+  border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.06em;
+}
+.illust .major-tag{background:#ede9fe;color:#7c3aed}
+.graphic .major-tag{background:#fff7ed;color:#c2410c}
+.cg .major-tag{background:#ecfeff;color:#0e7490}
+
+/* ===== GALLERY ===== */
+.gallery-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.filter-tabs{display:flex;gap:.5rem;flex-wrap:wrap}
+.filter-tab{
+  padding:.5rem 1.2rem;border-radius:999px;font-size:.82rem;font-weight:600;
+  cursor:pointer;border:2px solid var(--mid-gray);background:transparent;color:var(--text-sub);
+  transition:all .2s;letter-spacing:.03em;
+}
+.filter-tab.active,.filter-tab:hover{border-color:var(--accent);color:var(--accent);background:#f0f0ff}
+.filter-tab[data-filter="illust"].active{border-color:var(--illust);color:var(--illust);background:#f5f0ff}
+.filter-tab[data-filter="graphic"].active{border-color:var(--graphic);color:var(--graphic);background:#fff5ee}
+.filter-tab[data-filter="cg"].active{border-color:var(--cg);color:var(--cg);background:#f0fdff}
+
+.gallery-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;
+}
+.work-card{
+  background:var(--white);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);transition:all .3s;
+}
+.work-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.work-thumb{
+  width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--light-gray);
+  display:flex;align-items:center;justify-content:center;font-size:3rem;
+  position:relative;overflow:hidden;
+}
+.work-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.work-card:hover .work-thumb img{transform:scale(1.06)}
+.work-thumb video{width:100%;height:100%;object-fit:cover}
+.video-badge{
+  position:absolute;bottom:.7rem;right:.7rem;
+  background:rgba(0,0,0,.6);color:#fff;
+  font-size:.7rem;font-weight:700;padding:.25rem .6rem;border-radius:999px;
+  letter-spacing:.05em;backdrop-filter:blur(4px);
+}
+.work-info{padding:1.2rem 1.4rem 1.5rem}
+.work-major{
+  font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;
+}
+.work-major.illust{color:var(--illust)}
+.work-major.graphic{color:var(--graphic)}
+.work-major.cg{color:var(--cg)}
+.work-title{font-size:1rem;font-weight:800;margin-bottom:.3rem;letter-spacing:-.01em}
+.work-author{font-size:.8rem;color:var(--text-sub)}
+.work-year{font-size:.75rem;color:var(--mid-gray);margin-left:.5rem}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:2rem;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--white);border-radius:24px;max-width:860px;width:100%;
+  max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.2);
+  animation:modalIn .3s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-media{width:100%;aspect-ratio:16/9;background:var(--off-white);overflow:hidden;border-radius:24px 24px 0 0}
+.modal-media img,.modal-media video{width:100%;height:100%;object-fit:contain;background:#000;cursor:pointer}
+.modal-body{padding:2rem 2.5rem 2.5rem}
+.modal-major{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.modal-title{font-size:1.8rem;font-weight:900;letter-spacing:-.02em;margin-bottom:.5rem}
+.modal-meta{font-size:.85rem;color:var(--text-sub);margin-bottom:1.2rem}
+.modal-desc{font-size:.92rem;color:var(--dark-gray);line-height:1.8;margin-bottom:1.5rem}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:40px;height:40px;border-radius:50%;background:var(--white);
+  border:none;cursor:pointer;font-size:1.2rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{transform:scale(1.1);background:var(--off-white)}
+.modal-wrap{position:relative}
+.modal-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.15);
+  border:2px solid rgba(255,255,255,0.3);cursor:pointer;font-size:2.5rem;
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;z-index:10;padding:0;margin:0;
+  opacity:0;pointer-events:none;
+}
+.modal-wrap:hover .modal-nav{opacity:1;pointer-events:auto}
+.modal-nav:hover{background:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.6)}
+.modal-prev{left:1rem;padding-bottom:6px;padding-right:2px}
+.modal-next{right:1rem;padding-bottom:6px;padding-left:2px}
+.modal-nav.hidden{display:none}
+
+/* ===== FULLSCREEN VIEWER ===== */
+.fullscreen-viewer{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:#000;align-items:center;justify-content:center;
+  padding:1rem;overflow:auto;
+}
+.fullscreen-viewer.open{display:flex}
+#fullscreenContent{
+  display:flex;align-items:center;justify-content:center;
+  max-width:100%;max-height:100%;width:100%;height:100%;
+  pointer-events:none;
+}
+.fullscreen-viewer img,.fullscreen-viewer video{
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;pointer-events:auto;
+}
+.fullscreen-close{
+  position:absolute;top:1rem;right:1rem;
+  width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);
+  border:2px solid rgba(255,255,255,0.3);cursor:pointer;font-size:1.5rem;
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.fullscreen-close:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.6)}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--text);color:#aaa;
+  text-align:center;padding:3rem 5%;
+}
+footer strong{color:var(--white);font-size:1rem;display:block;margin-bottom:.5rem}
+footer small{font-size:.78rem;letter-spacing:.04em}
+
+/* ===== ANIMATIONS ===== */
+.fade-up{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:640px){
+  .nav-links{display:none}
+  .stats{gap:1.5rem}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .modal-body{padding:1.5rem}
+  .modal-title{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    日本工学院北海道専門学校
+    <span>CG Designer Gallery</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#majors">専攻紹介</a></li>
+    <li><a href="#gallery">ギャラリー</a></li>
+    <li><a href="#about">サイトについて</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Student Works 2024–2025</div>
+    <h1>学生たちの<br><em>クリエイティブ</em><br>を、ここに。</h1>
+    <p class="hero-sub">日本工学院北海道専門学校 CGデザイナー科の学生が制作した<br>イラスト・グラフィック・3DCG作品をご覧いただけます。</p>
+    <div class="hero-btns">
+      <a href="#gallery" class="btn btn-primary">作品を見る</a>
+      <a href="#majors" class="btn btn-outline">専攻を知る</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">MAJORS</div></div>
+  <div class="stat"><div class="stat-num" id="stat-works">0</div><div class="stat-label">WORKS</div></div>
+  <div class="stat"><div class="stat-num">2</div><div class="stat-label">MEDIA TYPES</div></div>
+</div>
+
+<!-- MAJORS -->
+<section class="section majors" id="majors">
+  <div class="fade-up">
+    <div class="section-label">Majors</div>
+    <h2 class="section-title">3つの専攻</h2>
+    <p class="section-sub">それぞれの専攻で、プロを目指す学生たちが日々スキルを磨いています。</p>
+  </div>
+  <div class="majors-grid fade-up">
+    <div class="major-card illust" onclick="filterWorks('illust')">
+      <div class="major-icon">🎨</div>
+      <h3>イラスト専攻</h3>
+      <p>デジタルイラストを中心に、キャラクターデザインや背景美術など幅広い表現を学びます。ゲーム・アニメ・出版など多方面で活躍できるクリエイターを育成します。</p>
+      <span class="major-tag">ILLUSTRATION</span>
+    </div>
+    <div class="major-card graphic" onclick="filterWorks('graphic')">
+      <div class="major-icon">🖼️</div>
+      <h3>グラフィックデザイン専攻</h3>
+      <p>ポスター・パッケージ・Webビジュアルなどのグラフィック制作を通じて、伝わるデザインの力を習得します。</p>
+      <span class="major-tag">GRAPHIC DESIGN</span>
+    </div>
+    <div class="major-card cg" onclick="filterWorks('cg')">
+      <div class="major-icon">🎬</div>
+      <h3>3DCGアニメーション専攻</h3>
+      <p>3Dモデリング・アニメーション・VFXなど、映像業界で求められる最先端の技術を習得します。</p>
+      <span class="major-tag">3D CG ANIMATION</span>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section" id="gallery" style="background:var(--off-white)">
+  <div class="gallery-header fade-up">
+    <div>
+      <div class="section-label">Gallery</div>
+      <h2 class="section-title">作品一覧</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all" onclick="filterWorks('all',this)">すべて</button>
+      <button class="filter-tab" data-filter="illust" onclick="filterWorks('illust',this)">イラスト</button>
+      <button class="filter-tab" data-filter="graphic" onclick="filterWorks('graphic',this)">グラフィック</button>
+      <button class="filter-tab" data-filter="cg" onclick="filterWorks('cg',this)">3DCG</button>
+    </div>
+  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="fade-up">
+    <div class="section-label">About</div>
+    <h2 class="section-title">このサイトについて</h2>
+    <p class="section-sub" style="margin-bottom:1.5rem">
+      本サイトは、日本工学院北海道専門学校 CGデザイナー科の学生が授業・発表会のために制作した作品を掲載しています。<br><br>
+      掲載作品は、高校生の皆さんや進路指導の先生方に、学生が実際にどのような制作活動を行っているかをご覧いただくことを目的としています。<br><br>
+      ご不明な点は学校までお問い合わせください。
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>日本工学院北海道専門学校 CGデザイナー科</strong>
+  <small>© 2025 Nihon Kogakuin Hokkaido College. All Rights Reserved.</small>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-wrap">
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <button class="modal-nav modal-prev" onclick="prevWork()">‹</button>
+    <button class="modal-nav modal-next" onclick="nextWork()">›</button>
+    <div class="modal">
+      <div class="modal-media" id="modalMedia"></div>
+      <div class="modal-body">
+        <div class="modal-major" id="modalMajor"></div>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-meta" id="modalMeta"></p>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FULLSCREEN VIEWER -->
+<div class="fullscreen-viewer" id="fullscreenViewer" onclick="closeFullscreen(event)">
+  <button class="fullscreen-close" onclick="closeFullscreen()">✕</button>
+  <div id="fullscreenContent"></div>
+</div>
+
+<script>
+/* =============================================
+   ▼▼▼ 作品データ — ここを編集して作品を追加 ▼▼▼
+   =============================================
+   type: "image" または "video"
+   src:  画像は images/ フォルダ、動画は images/ フォルダ、
+         またはYouTube埋め込みURL ("https://www.youtube.com/embed/xxxxx")
+   major: "illust" / "graphic" / "cg"
+*/
+const WORKS = [
+  {
+    id: 1,
+    title: "キャラデザ ー 水嶋カナタ",
+    author: "桔梗原結月",
+    year: 2026,
+    major: "illust",
+    type: "image",
+    src: "works/mizushima.png",
+    thumb: "",
+    aspectRatio: "3/4",
+    desc: "桜の木の下でたたずむキャラクターをデジタルイラストで描きました。柔らかい光の表現にこだわりました。",
+    event: "企業案件授業課題 2026/06"
+  },
+  {
+    id: 2,
+    title: "ワンドロイラスト",
+    author: "HH43-1007 安積百香",
+    year: 2025,
+    major: "graphic",
+    type: "image",
+    src: "works/HH43-1007_3Dワンドロ01_0611.jpg",
+    thumb: "",
+    aspectRatio: "9/16",
+    desc: "授業内で制作したワンドロイラストです。",
+    event: "授業課題 2025"
+  },
+  {
+    id: 3,
+    title: "DA!!!!",
+    author: "小板 陸",
+    year: 2025,
+    major: "cg",
+    type: "video",
+    src: "works/HU03_1015_小板陸哉_MV完成_DA!!!!_5Mbps.mp4",
+    thumb: "works/da_thumb.png",
+    aspectRatio: "16/9",
+    desc: "デジタルデザインで学んだAfterEffectsで短編アニメーション作品を制作。",
+    event: "授業課題 2025"
+  },
+  {
+    id: 4,
+    title: "幻獣戦記ファウナ",
+    author: "桔梗原 結月",
+    year: 2025,
+    major: "illust",
+    type: "image",
+    src: "works/HU3_1008_桔梗原結月_夏休み自由制作作品_ポスター本制作.jpg",
+    thumb: "",
+    aspectRatio: "9/16",
+    desc: "オオカミに侵食されている島、プレリコリーヌを奪還するために５匹の戦士たちがさまざまな戦いを繰り広げるアニメゲームのキャラクターデザインとポスターを制作。",
+    event: "授業課題 2025"
+  },
+  {
+    id: 5,
+    title: "まきまきあざらしさんリング　ポスター",
+    author: "井上　穂波",
+    year: 2025,
+    major: "graphic",
+    type: "image",
+    src: "works/HU03_1020 _井上穂波 _夏休み自由制作作品 _まきまきあざらしさんリング_ポスター02.jpg",
+    thumb: "",
+    aspectRatio: "9/16",
+    desc: "夏休みの自主制作作品としてグラフィックデザイン専攻作品としてガチャガチャのキャラクターとフィギュアを製作。実際にレジンを使ってアクセサリーを作ってガチャガチャのパッケージデザインを制作しました。",
+    event: "夏休み自主制作作品　授業課題 2025"
+  },
+  {
+    id: 6,
+    title: "凡才",
+    author: "小山内 葵",
+    year: 2025,
+    major: "cg",
+    type: "video",
+    src: "works/HU03_1009_小山内葵_260309_MV完成_凡才_5Mbps.mp4",
+    thumb: "works/bonsai_thumb.png",
+    aspectRatio: "16/9",
+    desc: "デジタルデザインの授業で習ったAfterEffectsを使ったミュージックビデオを作成しました。知人に楽曲使用許可をもらって制作しています。",
+    event: "卒業発表会 2024"
+  },
+];
+/* ============================================= */
+
+const majorLabel = { illust:"イラスト専攻", graphic:"グラフィックデザイン専攻", cg:"3DCGアニメーション専攻" };
+const majorColor = { illust:"var(--illust)", graphic:"var(--graphic)", cg:"var(--cg)" };
+let currentFilter = "all";
+let currentModalId = null;
+
+function getPlaceholder(major){
+  const icons = {illust:"🎨",graphic:"🖼️",cg:"🎬"};
+  const colors = {illust:"#f5f0ff",graphic:"#fff5ee",cg:"#f0fdff"};
+  return `<div style="width:100%;height:100%;background:${colors[major]};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem">
+    <span style="font-size:3rem">${icons[major]}</span>
+    <span style="font-size:.75rem;color:#aaa;letter-spacing:.06em">COMING SOON</span>
+  </div>`;
+}
+
+function buildThumb(w){
+  if(w.type==="video"){
+    if(w.thumb){
+      return `<div class="work-thumb"><img src="${w.thumb}" alt="${w.title}" loading="lazy"><span class="video-badge">▶ VIDEO</span></div>`;
+    }
+    return `<div class="work-thumb">${getPlaceholder(w.major)}<span class="video-badge">▶ VIDEO</span></div>`;
+  }
+  if(w.src){
+    return `<div class="work-thumb"><img src="${w.thumb||w.src}" alt="${w.title}" loading="lazy"></div>`;
+  }
+  return `<div class="work-thumb">${getPlaceholder(w.major)}</div>`;
+}
+
+function renderGallery(filter){
+  const grid = document.getElementById("galleryGrid");
+  const filtered = filter==="all" ? WORKS : WORKS.filter(w=>w.major===filter);
+  grid.innerHTML = filtered.map(w=>`
+    <div class="work-card fade-up" onclick="openModal(${w.id})">
+      ${buildThumb(w)}
+      <div class="work-info">
+        <div class="work-major ${w.major}">${majorLabel[w.major]}</div>
+        <div class="work-title">${w.title}</div>
+        <div class="work-author">${w.author}<span class="work-year">${w.year}</span></div>
+      </div>
+    </div>
+  `).join("");
+  document.getElementById("stat-works").textContent = WORKS.length;
+  observeFadeUp();
+}
+
+function filterWorks(f, btn){
+  currentFilter = f;
+  document.querySelectorAll(".filter-tab").forEach(t=>t.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  else{
+    const t = document.querySelector(`.filter-tab[data-filter="${f}"]`);
+    if(t){t.classList.add("active");document.querySelectorAll(".filter-tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");}
+  }
+  renderGallery(f);
+  document.getElementById("gallery").scrollIntoView({behavior:"smooth"});
+}
+
+function openModal(id){
+  const w = WORKS.find(x=>x.id===id);
+  if(!w) return;
+  const overlay = document.getElementById("modalOverlay");
+  const media = document.getElementById("modalMedia");
+  const filtered = currentFilter==="all" ? WORKS : WORKS.filter(w=>w.major===currentFilter);
+  const currentIndex = filtered.findIndex(w=>w.id===id);
+  
+  currentModalId = id;
+  media.style.aspectRatio = "16/9";
+
+  if(w.type==="video" && w.src.includes("youtube")){
+    media.innerHTML=`<iframe width="100%" height="100%" src="${w.src}" frameborder="0" allowfullscreen style="display:block"></iframe>`;
+  } else if(w.type==="video" && w.src){
+    media.innerHTML=`<div style="width:100%;height:100%;position:relative" onclick="if(event.target.tagName==='VIDEO') openFullscreen(event, '${w.type}', '${w.src}')"><video src="${w.src}" controls playsinline style="width:100%;height:100%;object-fit:contain;cursor:pointer" onclick="event.stopPropagation()"></video></div>`;
+  } else if(w.src){
+    media.innerHTML=`<img src="${w.src}" alt="${w.title}" style="width:100%;height:100%;object-fit:contain;cursor:pointer" onclick="openFullscreen(event, '${w.type}', '${w.src}')">`;
+  } else {
+    media.innerHTML=getPlaceholder(w.major);
+  }
+
+  document.getElementById("modalMajor").textContent = majorLabel[w.major];
+  document.getElementById("modalMajor").style.color = majorColor[w.major];
+  document.getElementById("modalTitle").textContent = w.title;
+  document.getElementById("modalMeta").textContent = `${w.author} ／ ${w.event}`;
+  document.getElementById("modalDesc").textContent = w.desc;
+  
+  const prevBtn = document.querySelector(".modal-prev");
+  const nextBtn = document.querySelector(".modal-next");
+  
+  if(currentIndex === 0) prevBtn.classList.add("hidden");
+  else prevBtn.classList.remove("hidden");
+  
+  if(currentIndex === filtered.length - 1) nextBtn.classList.add("hidden");
+  else nextBtn.classList.remove("hidden");
+  
+  overlay.classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeModal(e){if(e.target===document.getElementById("modalOverlay"))closeModalBtn()}
+function closeModalBtn(){
+  document.getElementById("modalOverlay").classList.remove("open");
+  document.getElementById("modalMedia").innerHTML="";
+  document.body.style.overflow="";
+}
+
+function openFullscreen(e, type, src){
+  e.stopPropagation();
+  const viewer = document.getElementById("fullscreenViewer");
+  const content = document.getElementById("fullscreenContent");
+  
+  if(type==="video"){
+    content.innerHTML=`<video src="${src}" controls playsinline style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" onclick="event.stopPropagation()"></video>`;
+  } else {
+    content.innerHTML=`<img src="${src}" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" onclick="event.stopPropagation()">`;
+  }
+  viewer.classList.add("open");
+  document.body.style.overflow="hidden";
+}
+
+function closeFullscreen(e){
+  const viewer = document.getElementById("fullscreenViewer");
+  if(e && e.target !== viewer) return;
+  viewer.classList.remove("open");
+  document.getElementById("fullscreenContent").innerHTML="";
+  document.body.style.overflow="";
+}
+
+function nextWork(){
+  if(!currentModalId) return;
+  const filtered = currentFilter==="all" ? WORKS : WORKS.filter(w=>w.major===currentFilter);
+  const currentIndex = filtered.findIndex(w=>w.id===currentModalId);
+  if(currentIndex < filtered.length - 1){
+    openModal(filtered[currentIndex + 1].id);
+  }
+}
+
+function prevWork(){
+  if(!currentModalId) return;
+  const filtered = currentFilter==="all" ? WORKS : WORKS.filter(w=>w.major===currentFilter);
+  const currentIndex = filtered.findIndex(w=>w.id===currentModalId);
+  if(currentIndex > 0){
+    openModal(filtered[currentIndex - 1].id);
+  }
+}
+
+// Scroll nav shadow
+window.addEventListener("scroll",()=>{
+  document.getElementById("nav").classList.toggle("scrolled",scrollY>10);
+});
+
+// Keyboard navigation
+window.addEventListener("keydown",(e)=>{
+  if(e.key==="Escape"){
+    if(document.getElementById("fullscreenViewer").classList.contains("open")){
+      closeFullscreen();
+    } else if(document.getElementById("modalOverlay").classList.contains("open")){
+      closeModalBtn();
+    }
+  }
+  if(!document.getElementById("modalOverlay").classList.contains("open")) return;
+  if(e.key==="ArrowLeft") prevWork();
+  if(e.key==="ArrowRight") nextWork();
+});
+
+// Fade-up observer
+function observeFadeUp(){
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")});
+  },{threshold:.1});
+  document.querySelectorAll(".fade-up").forEach(el=>obs.observe(el));
+}
+
+// Stat counter
+function countUp(el,target){
+  let n=0;const step=Math.ceil(target/40);
+  const t=setInterval(()=>{n=Math.min(n+step,target);el.textContent=n;if(n>=target)clearInterval(t)},30);
+}
+
+// Init
+renderGallery("all");
+observeFadeUp();
+const statEl=document.getElementById("stat-works");
+const statObs=new IntersectionObserver(e=>{if(e[0].isIntersecting){countUp(statEl,WORKS.length);statObs.disconnect()}});
+statObs.observe(statEl);
+</script>
+</body>
+</html>

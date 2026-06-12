@@ -1,0 +1,194 @@
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.hero {
+  width: 100%;
+  min-height: 460px;
+  background: #f8f6ff;
+  border-radius: 14px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.bg-accent {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ba1 { width: 400px; height: 400px; background: #ede9fe; top: -120px; right: -80px; }
+.ba2 { width: 250px; height: 250px; background: #e0f2fe; bottom: -80px; left: 30%; }
+.ba3 { width: 160px; height: 160px; background: #fce7f3; top: 20px; left: 60px; }
+
+.left {
+  position: relative;
+  z-index: 2;
+  padding: 50px 40px 50px 48px;
+}
+.badge {
+  display: inline-block;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+.dept {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #7c3aed;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+h1 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #1e1b4b;
+  margin-bottom: 14px;
+  letter-spacing: -1px;
+}
+h1 span { color: #7c3aed; }
+.desc {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 320px;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+.tag {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+.t1 { background: #ede9fe; color: #6d28d9; }
+.t2 { background: #dbeafe; color: #1d4ed8; }
+.t3 { background: #fce7f3; color: #9d174d; }
+.t4 { background: #d1fae5; color: #065f46; }
+.t5 { background: #fef3c7; color: #92400e; }
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cta:hover { background: #6d28d9; }
+.cta-sub {
+  margin-left: 12px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.right {
+  position: relative;
+  z-index: 2;
+  padding: 30px 30px 30px 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  height: 420px;
+}
+.img-card {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.12);
+}
+.img-card img {
+  /* width: 100%; height: 100%;*/
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.img-card:hover img { transform: scale(1.06); }
+.img-card.big {
+  grid-row: 1 / 3;
+}
+.img-label {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  background: rgba(255,255,255,0.88);
+  color: #1e1b4b;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+}
+.stat-num { font-size: 22px; font-weight: 800; color: #1e1b4b; }
+.stat-label { font-size: 10px; letter-spacing: 1.5px; color: #94a3b8; text-transform: uppercase; }
+</style>
+
+<div class="hero">
+  <div class="bg-accent ba1"></div>
+  <div class="bg-accent ba2"></div>
+  <div class="bg-accent ba3"></div>
+
+  <div class="left">
+    <div class="badge">Student Works 2025</div>
+    <p class="dept">CGデザイナー科</p>
+    <h1>CGデザイナー科<br><span>作品ギャラリー</span></h1>
+    <p class="desc">CGデザイナー科で制作したイラスト、グラフィックデザイン、3DCGアニメーションなど、授業で取り組んだ多彩な作品を公開中。</p>
+    <div class="tags">
+      <span class="tag t1">3DCG</span>
+      <span class="tag t2">モーショングラフィックス</span>
+      <span class="tag t3">キャラクターデザイン</span>
+      <span class="tag t4">VFX</span>
+      <span class="tag t5">コンセプトアート</span>
+    </div>
+    <div>
+      <a href="top.html">
+        <button class="cta">作品ギャラリーへ　→</button>
+      </a>
+    </div>
+    <div class="stats">
+      <div><div class="stat-num">120+</div><div class="stat-label">作品数</div></div>
+      <div><div class="stat-num">48</div><div class="stat-label">学生</div></div>
+      <div><div class="stat-num">5</div><div class="stat-label">ジャンル</div></div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="img-card big">
+      <img src="images/3d_a001.png?w=600&q=80" alt="3DCG abstract render" onerror="this.style.background='#ede9fe';this.style.display='block'"/>
+      <div class="img-label">3D RENDER</div>
+    </div>
+    <div class="img-card">
+      <img src="images/gr_b001.png?w=400&q=80" alt="abstract CG art" onerror="this.style.background='#dbeafe'"/>
+      <div class="img-label">ABSTRACT CG</div>
+    </div>
+    <div class="img-card">
+      <img src="images/il_c001.png?w=400&q=80" alt="digital art" onerror="this.style.background='#fce7f3'"/>
+      <div class="img-label">DIGITAL ART</div>
+    </div>
+  </div>
+</div>
