@@ -185,26 +185,29 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 
 /* ===== COHORT FILTER ===== */
 .cohort-filter-row{
-  display:flex;align-items:center;gap:1rem;margin-top:1.2rem;
-  padding-top:1.2rem;border-top:1px solid var(--light-gray);
+  display:flex;align-items:center;gap:.9rem;margin-top:1.2rem;
+  padding-top:1.2rem;border-top:1px solid var(--light-gray);flex-wrap:wrap;
 }
 .cohort-filter-label{
-  font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--text-sub);
-  text-transform:uppercase;white-space:nowrap;flex-shrink:0;
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.65rem;font-weight:800;letter-spacing:.12em;
+  color:var(--white);text-transform:uppercase;white-space:nowrap;flex-shrink:0;
+  background:var(--text);padding:.28rem .75rem;border-radius:5px;
 }
-.cohort-tabs{
-  display:inline-flex;
-  border:1.5px solid var(--mid-gray);border-radius:8px;overflow:hidden;
-}
+.cohort-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
 .cohort-tab{
-  padding:.35rem 1.1rem;font-size:.75rem;font-weight:700;
-  cursor:pointer;border:none;border-right:1.5px solid var(--mid-gray);
-  background:transparent;color:var(--text-sub);
-  transition:background .15s,color .15s;letter-spacing:.04em;white-space:nowrap;
+  padding:.35rem 1rem;border-radius:5px;font-size:.75rem;font-weight:700;
+  cursor:pointer;border:2px solid var(--tab-color,var(--mid-gray));
+  background:transparent;color:var(--tab-color,var(--text-sub));
+  transition:all .2s;letter-spacing:.04em;white-space:nowrap;
 }
-.cohort-tab:last-child{border-right:none}
-.cohort-tab:hover:not(.active){background:var(--light-gray);color:var(--dark-gray)}
-.cohort-tab.active{background:var(--text);color:var(--white)}
+.cohort-tab:hover:not(.active){
+  background:color-mix(in srgb,var(--tab-color,var(--mid-gray)) 12%,transparent);
+}
+.cohort-tab.active{
+  background:var(--tab-color,var(--text));
+  color:#fff;border-color:var(--tab-color,var(--text));
+}
 
 /* ===== MODAL ===== */
 .modal-overlay{
@@ -377,7 +380,7 @@ footer small{font-size:.78rem;letter-spacing:.04em}
       <button class="filter-tab" data-filter="cg" onclick="filterWorks('cg',this)">3DCG</button>
     </div>
     <div class="cohort-filter-row">
-      <span class="cohort-filter-label">期</span>
+      <span class="cohort-filter-label">◈ COHORT</span>
       <div class="cohort-tabs" id="cohortTabs"></div>
     </div>
   </div>
@@ -538,13 +541,17 @@ function getFilteredWorks(){
     .filter(w => currentCohort === "all" || w.cohort === currentCohort);
 }
 
+const cohortPalette = ["#6b7280","#0d9488","#d97706","#8b5cf6","#ec4899","#3b82f6","#ef4444"];
+
 function renderCohortTabs(){
   const cohorts = ["all", ...new Set(WORKS.map(w => w.cohort).filter(Boolean))];
-  document.getElementById("cohortTabs").innerHTML = cohorts.map(c =>
-    `<button class="cohort-tab${c === currentCohort ? ' active' : ''}" onclick="filterCohort('${c}',this)">
-      ${c === 'all' ? 'すべての期' : c + '期'}
-    </button>`
-  ).join("");
+  document.getElementById("cohortTabs").innerHTML = cohorts.map((c, i) => {
+    const color = cohortPalette[i % cohortPalette.length];
+    const label = c === 'all' ? 'すべての期' : c + '期';
+    return `<button class="cohort-tab${c === currentCohort ? ' active' : ''}"
+      style="--tab-color:${color}"
+      onclick="filterCohort('${c}',this)">${label}</button>`;
+  }).join("");
 }
 
 function filterCohort(f, btn){
