@@ -133,7 +133,7 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 .cg .major-tag{background:#ecfeff;color:#0e7490}
 
 /* ===== GALLERY ===== */
-.gallery-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.gallery-header{margin-bottom:2.5rem}
 .filter-tabs{display:flex;gap:.5rem;flex-wrap:wrap}
 .filter-tab{
   padding:.5rem 1.2rem;border-radius:999px;font-size:.82rem;font-weight:600;
@@ -184,7 +184,6 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 .work-year{font-size:.75rem;color:var(--mid-gray);margin-left:auto}
 
 /* ===== COHORT FILTER ===== */
-.gallery-header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .cohort-filter-row{
   display:flex;align-items:center;gap:1rem;margin-top:1.2rem;
   padding-top:1.2rem;border-top:1px solid var(--light-gray);
@@ -369,17 +368,13 @@ footer small{font-size:.78rem;letter-spacing:.04em}
 <!-- GALLERY -->
 <section class="section" id="gallery" style="background:var(--off-white)">
   <div class="gallery-header fade-up">
-    <div class="gallery-header-top">
-      <div>
-        <div class="section-label">Gallery</div>
-        <h2 class="section-title">作品一覧</h2>
-      </div>
-      <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all" onclick="filterWorks('all',this)">すべて</button>
-        <button class="filter-tab" data-filter="illust" onclick="filterWorks('illust',this)">イラスト</button>
-        <button class="filter-tab" data-filter="graphic" onclick="filterWorks('graphic',this)">グラフィック</button>
-        <button class="filter-tab" data-filter="cg" onclick="filterWorks('cg',this)">3DCG</button>
-      </div>
+    <div class="section-label">Gallery</div>
+    <h2 class="section-title">作品一覧</h2>
+    <div class="filter-tabs" style="margin-top:1.5rem">
+      <button class="filter-tab active" data-filter="all" onclick="filterWorks('all',this)">すべて</button>
+      <button class="filter-tab" data-filter="illust" onclick="filterWorks('illust',this)">イラスト</button>
+      <button class="filter-tab" data-filter="graphic" onclick="filterWorks('graphic',this)">グラフィック</button>
+      <button class="filter-tab" data-filter="cg" onclick="filterWorks('cg',this)">3DCG</button>
     </div>
     <div class="cohort-filter-row">
       <span class="cohort-filter-label">期</span>
