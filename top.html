@@ -273,9 +273,10 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 .modal-nav.hidden{display:none}
 
 /* ===== PDF VIEWER ===== */
-.modal.pdf-mode{display:flex;flex-direction:column;height:min(90vh,900px);overflow:hidden}
+.modal.pdf-mode{display:flex;flex-direction:column;height:min(90vh,900px);max-height:90vh;overflow:hidden}
+.modal.pdf-mode .modal-media-wrap{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
 .modal.pdf-mode .modal-media{flex:1;min-height:0;height:auto!important;aspect-ratio:unset!important;border-radius:0}
-.modal.pdf-mode .modal-body{flex-shrink:0;overflow-y:auto;max-height:200px}
+.modal.pdf-mode .modal-body{flex-shrink:0;overflow-y:auto;max-height:180px}
 .pdf-viewer{width:100%;height:100%;display:flex;flex-direction:column;background:#e8e8e8}
 .pdf-canvas-wrap{
   flex:1;min-height:0;overflow:hidden;
@@ -898,13 +899,19 @@ function prevWork(){
 
 // ===== PDF.js ビューア =====
 let pdfDoc = null, pdfPageNum = 1, pdfRendering = false;
-window['pdfjs-dist/build/pdf'] && (window['pdfjs-dist/build/pdf'].GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');
+const PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 async function loadPdf(src){
-  const lib = window['pdfjs-dist/build/pdf'];
-  lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  pdfDoc = await lib.getDocument(src).promise;
+  const lib = window.pdfjsLib;
+  if(!lib){ console.error('PDF.js が読み込まれていません'); return; }
+  lib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+  try {
+    pdfDoc = await lib.getDocument(src).promise;
+  } catch(e) {
+    const info = document.getElementById('pdfPageInfo');
+    if(info) info.textContent = '読込に失敗しました';
+    return;
+  }
   pdfPageNum = 1;
   updatePdfNav();
   renderPdfPage(1);
