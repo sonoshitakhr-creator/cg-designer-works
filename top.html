@@ -290,12 +290,84 @@ footer small{font-size:.78rem;letter-spacing:.04em}
 .fade-up.visible{opacity:1;transform:translateY(0)}
 
 /* ===== RESPONSIVE ===== */
-@media(max-width:640px){
+/* ===== RESPONSIVE ===== */
+
+/* タブレット (≤ 900px) */
+@media(max-width:900px){
+  .section{padding:5rem 4%}
+}
+
+/* モバイル大 (≤ 680px) */
+@media(max-width:680px){
+  /* ナビ */
   .nav-links{display:none}
-  .stats{gap:1.5rem}
+
+  /* セクション余白 */
+  .section{padding:3.5rem 5%}
+
+  /* スタッツ */
+  .stats{gap:1.5rem;padding:2rem 5%}
+
+  /* 専攻カード */
+  .majors-grid{grid-template-columns:1fr}
+
+  /* ギャラリー：2カラム */
   .gallery-grid{grid-template-columns:1fr 1fr}
+
+  /* フィルタータブ */
+  .filter-tab{padding:.4rem .9rem;font-size:.78rem}
+
+  /* COHORTフィルター */
+  .cohort-tab{padding:.3rem .8rem;font-size:.72rem}
+
+  /* モーダル */
   .modal-body{padding:1.5rem}
   .modal-title{font-size:1.3rem}
+  .modal-nav{width:40px;height:40px;font-size:2rem}
+}
+
+/* モバイル小 (≤ 480px) */
+@media(max-width:480px){
+  /* ナビ */
+  .nav-logo{font-size:.7rem}
+  .nav-logo span{font-size:.95rem}
+
+  /* ヒーロー */
+  .hero-sub{font-size:.88rem}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn{width:100%;max-width:280px;text-align:center}
+
+  /* スタッツ */
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;padding:1.5rem 5%}
+  .stat-num{font-size:1.8rem}
+
+  /* セクション余白 */
+  .section{padding:3rem 4%}
+
+  /* ギャラリー：1カラム */
+  .gallery-grid{grid-template-columns:1fr}
+
+  /* フィルタータブ */
+  .filter-tabs{gap:.35rem}
+  .filter-tab{padding:.38rem .75rem;font-size:.74rem}
+
+  /* COHORTフィルター */
+  .cohort-filter-row{gap:.5rem}
+  .cohort-filter-label{font-size:.58rem;padding:.24rem .6rem}
+  .cohort-tabs{gap:.3rem}
+  .cohort-tab{padding:.28rem .65rem;font-size:.7rem}
+
+  /* 作品カード */
+  .work-info{padding:1rem 1.1rem 1.2rem}
+  .work-title{font-size:.95rem}
+
+  /* モーダル */
+  .modal-overlay{padding:.5rem}
+  .modal-body{padding:1.2rem 1.4rem 1.5rem}
+  .modal-title{font-size:1.15rem}
+  .modal{border-radius:14px}
+  .modal-media{border-radius:14px 14px 0 0}
+  .modal-close{top:.6rem;right:.6rem;width:36px;height:36px}
 }
 </style>
 </head>
@@ -322,7 +394,7 @@ footer small{font-size:.78rem;letter-spacing:.04em}
     <div class="hero-blob blob3"></div>
   </div>
   <div class="hero-content">
-    <div class="hero-badge">Student Works 2024–2025</div>
+    <div class="hero-badge">Student Works 2025–2026</div>
     <h1>学生たちの<br><em>クリエイティブ</em><br>を、ここに。</h1>
     <p class="hero-sub">日本工学院北海道専門学校 CGデザイナー科の学生が制作した<br>イラスト・グラフィック・3DCG作品をご覧いただけます。</p>
     <div class="hero-btns">
@@ -356,13 +428,13 @@ footer small{font-size:.78rem;letter-spacing:.04em}
     <div class="major-card graphic" onclick="filterWorks('graphic')">
       <div class="major-icon">🖼️</div>
       <h3>グラフィックデザイン専攻</h3>
-      <p>ポスター・パッケージ・Webビジュアルなどのグラフィック制作を通じて、伝わるデザインの力を習得します。</p>
+      <p>ポスター・パッケージ・Webビジュアルなどのグラフィック制作を通じて、企業広告や印刷物、WEBデザイン等の領域で、伝わるデザインの力を習得します。</p>
       <span class="major-tag">GRAPHIC DESIGN</span>
     </div>
     <div class="major-card cg" onclick="filterWorks('cg')">
       <div class="major-icon">🎬</div>
       <h3>3DCGアニメーション専攻</h3>
-      <p>3Dモデリング・アニメーション・VFXなど、映像業界で求められる最先端の技術を習得します。</p>
+      <p>3Dモデリング・アニメーション・VFXの政策を通じて、ゲーム会社やアニメーション制作、映像業界で求められる最先端の技術を習得します。</p>
       <span class="major-tag">3D CG ANIMATION</span>
     </div>
   </div>
