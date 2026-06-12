@@ -665,7 +665,7 @@ const WORKS = [
     major: "cg",
     type: "pdf",
     src: "works/HU03_1010_長内大地_夏休み自由制作作品 _VOXELAND_まとめ.pdf",
-    thumb: "",
+    thumb: "works/voxeland_thumb.png",
     aspectRatio: "9/13",
     desc: "夏休みの自主制作課題として制作した3DCG作品のまとめです。",
     event: "夏休み自主制作課題　2025年"
@@ -722,6 +722,9 @@ function buildThumb(w){
     return `<div class="work-thumb">${getPlaceholder(w.major)}<span class="video-badge">▶ VIDEO</span></div>`;
   }
   if(w.type==="pdf"){
+    if(w.thumb){
+      return `<div class="work-thumb"><img src="${w.thumb}" alt="${w.title}" loading="lazy"><span class="video-badge">📄 PDF</span></div>`;
+    }
     return `<div class="work-thumb">${getPlaceholder(w.major)}<span class="video-badge">📄 PDF</span></div>`;
   }
   if(w.src){
