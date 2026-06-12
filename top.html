@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CG Designer Gallery | 日本工学院北海道専門学校</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 /* ===== RESET & BASE ===== */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -270,6 +271,35 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 .modal-prev{left:1rem;padding-bottom:6px;padding-right:2px}
 .modal-next{right:1rem;padding-bottom:6px;padding-left:2px}
 .modal-nav.hidden{display:none}
+
+/* ===== PDF VIEWER ===== */
+.modal.pdf-mode{display:flex;flex-direction:column;height:min(90vh,900px);overflow:hidden}
+.modal.pdf-mode .modal-media{flex:1;min-height:0;height:auto!important;aspect-ratio:unset!important;border-radius:0}
+.modal.pdf-mode .modal-body{flex-shrink:0;overflow-y:auto;max-height:200px}
+.pdf-viewer{width:100%;height:100%;display:flex;flex-direction:column;background:#e8e8e8}
+.pdf-canvas-wrap{
+  flex:1;min-height:0;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;padding:.75rem;
+}
+.pdf-canvas-wrap canvas{
+  max-width:100%;max-height:100%;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);display:block;
+}
+.pdf-page-nav{
+  display:flex;align-items:center;justify-content:center;gap:1.2rem;
+  padding:.55rem 1rem;background:rgba(0,0,0,.06);
+  border-top:1px solid rgba(0,0,0,.08);flex-shrink:0;
+}
+.pdf-page-info{font-size:.82rem;font-weight:700;color:var(--dark-gray);min-width:60px;text-align:center}
+.pdf-page-btn{
+  width:32px;height:32px;border-radius:50%;
+  border:1.5px solid var(--mid-gray);background:var(--white);
+  cursor:pointer;font-size:1.1rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;padding-bottom:2px;
+}
+.pdf-page-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.pdf-page-btn:disabled{opacity:.3;cursor:default}
 
 /* ===== FULLSCREEN VIEWER ===== */
 .fullscreen-viewer{
@@ -781,8 +811,18 @@ function openModal(id){
   } else if(w.type==="video" && w.src){
     media.innerHTML=`<div style="width:100%;height:100%;position:relative" onclick="if(event.target.tagName==='VIDEO') openFullscreen(event, '${w.type}', '${w.src}')"><video src="${w.src}" controls playsinline style="width:100%;height:100%;object-fit:contain;cursor:pointer" onclick="event.stopPropagation()"></video></div>`;
   } else if(w.type==="pdf" && w.src){
-    media.style.aspectRatio = "9/13";
-    media.innerHTML=`<iframe src="${w.src}" style="width:100%;height:100%;border:none;display:block;" title="${w.title}"></iframe>`;
+    document.querySelector('.modal').classList.add('pdf-mode');
+    media.style.aspectRatio = '';
+    media.innerHTML=`
+      <div class="pdf-viewer">
+        <div class="pdf-canvas-wrap" id="pdfCanvasWrap"><canvas id="pdfCanvas"></canvas></div>
+        <div class="pdf-page-nav">
+          <button class="pdf-page-btn" id="pdfPrevBtn" onclick="prevPdfPage()" disabled>‹</button>
+          <span class="pdf-page-info" id="pdfPageInfo">読込中...</span>
+          <button class="pdf-page-btn" id="pdfNextBtn" onclick="nextPdfPage()" disabled>›</button>
+        </div>
+      </div>`;
+    loadPdf(w.src);
   } else if(w.src){
     media.innerHTML=`<img src="${w.src}" alt="${w.title}" style="width:100%;height:100%;object-fit:contain;cursor:pointer" onclick="openFullscreen(event, '${w.type}', '${w.src}')">`;
   } else {
@@ -811,6 +851,8 @@ function closeModal(e){if(e.target===document.getElementById("modalOverlay"))clo
 function closeModalBtn(){
   document.getElementById("modalOverlay").classList.remove("open");
   document.getElementById("modalMedia").innerHTML="";
+  document.querySelector('.modal').classList.remove('pdf-mode');
+  pdfDoc = null;
   document.body.style.overflow="";
 }
 
@@ -854,6 +896,54 @@ function prevWork(){
   }
 }
 
+// ===== PDF.js ビューア =====
+let pdfDoc = null, pdfPageNum = 1, pdfRendering = false;
+window['pdfjs-dist/build/pdf'] && (window['pdfjs-dist/build/pdf'].GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');
+
+async function loadPdf(src){
+  const lib = window['pdfjs-dist/build/pdf'];
+  lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  pdfDoc = await lib.getDocument(src).promise;
+  pdfPageNum = 1;
+  updatePdfNav();
+  renderPdfPage(1);
+}
+
+async function renderPdfPage(num){
+  if(pdfRendering || !pdfDoc) return;
+  pdfRendering = true;
+  const page = await pdfDoc.getPage(num);
+  const canvas = document.getElementById('pdfCanvas');
+  const wrap = document.getElementById('pdfCanvasWrap');
+  if(!canvas || !wrap){ pdfRendering=false; return; }
+  const vp0 = page.getViewport({scale:1});
+  const scale = Math.min(
+    (wrap.clientWidth - 24) / vp0.width,
+    (wrap.clientHeight - 24) / vp0.height
+  );
+  const vp = page.getViewport({scale});
+  canvas.width = vp.width;
+  canvas.height = vp.height;
+  await page.render({canvasContext:canvas.getContext('2d'), viewport:vp}).promise;
+  pdfRendering = false;
+  pdfPageNum = num;
+  updatePdfNav();
+}
+
+function updatePdfNav(){
+  const info = document.getElementById('pdfPageInfo');
+  const prev = document.getElementById('pdfPrevBtn');
+  const next = document.getElementById('pdfNextBtn');
+  if(!info || !pdfDoc) return;
+  info.textContent = `${pdfPageNum} / ${pdfDoc.numPages}`;
+  prev.disabled = pdfPageNum <= 1;
+  next.disabled = pdfPageNum >= pdfDoc.numPages;
+}
+
+function prevPdfPage(){ if(pdfPageNum > 1) renderPdfPage(pdfPageNum - 1); }
+function nextPdfPage(){ if(pdfDoc && pdfPageNum < pdfDoc.numPages) renderPdfPage(pdfPageNum + 1); }
+
 // Scroll nav shadow
 window.addEventListener("scroll",()=>{
   document.getElementById("nav").classList.toggle("scrolled",scrollY>10);
@@ -869,8 +959,13 @@ window.addEventListener("keydown",(e)=>{
     }
   }
   if(!document.getElementById("modalOverlay").classList.contains("open")) return;
-  if(e.key==="ArrowLeft") prevWork();
-  if(e.key==="ArrowRight") nextWork();
+  if(document.querySelector('.modal.pdf-mode')){
+    if(e.key==="ArrowLeft") prevPdfPage();
+    if(e.key==="ArrowRight") nextPdfPage();
+  } else {
+    if(e.key==="ArrowLeft") prevWork();
+    if(e.key==="ArrowRight") nextWork();
+  }
 });
 
 // Fade-up observer
